@@ -26,3 +26,5 @@ In the future I may add the feature that allows viewers to interact with the tas
 
 • Allow list to be controlled via Twitch chat commands
 
+• Allow for background image customization
+
