@@ -5,8 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
-using UnityEngine.UIElements;
-using Unity.VisualScripting;
 
 public class ScrollView : MonoBehaviour
 {
@@ -24,7 +22,7 @@ public class ScrollView : MonoBehaviour
   private const int SizeLimit = 35;
   private const int LeftMouseClick = 0;
   private const int RightMouseClick = 1;
-  
+
   private void Start()
   {
     Button.ButtonPress += OnButtonPress;
@@ -72,20 +70,12 @@ public class ScrollView : MonoBehaviour
       _taskList.Add(go);
     }
     Task t = go.GetComponent<Task>();
-    var list = _taskList.Where(x => x.GetComponent<Task>().Time.gameObject.activeSelf);
-    if(list.Count() == 0)
+
+    foreach (var item in _taskList)
     {
-      t.Time.gameObject.SetActive(true);
+      t.Time.gameObject.SetActive(item.GetComponent<Task>().Time.gameObject.activeSelf);
+      break;
     }
-    else 
-    {
-      foreach (var item in _taskList)
-      {
-        t.Time.gameObject.SetActive(item.GetComponent<Task>().Time.gameObject.activeSelf);
-        break;
-      }
-    }
-  
     Debug.Log($"Tasklist size: {_taskList.Count}");
   }
   private void NameTask()
@@ -135,7 +125,7 @@ public class ScrollView : MonoBehaviour
   {
     string newText = default;
     text.text = string.Empty;
-   _textInput.GetComponent<TMP_InputField>().text = string.Empty;
+    _textInput.GetComponent<TMP_InputField>().text = string.Empty;
 
     while (_textInput.gameObject.activeSelf == true)
     {
