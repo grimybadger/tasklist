@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Task : MonoBehaviour
 {
-   [field: Header("General Properties")]
+   [field: Header("General Settings")]
    [field: SerializeField] public TMP_Text Description { get; set; }
    [field: SerializeField] public TMP_Text Time { get; private set; }
    [field: SerializeField] public bool IsTimerPaused { get; set; }

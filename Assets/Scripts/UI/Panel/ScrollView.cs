@@ -8,11 +8,11 @@ using System.Linq;
 
 public class ScrollView : MonoBehaviour
 {
-  [Header("Prefab Properties")]
+  [Header("Prefab Settings")]
   [SerializeField] private Transform _transform;
   [SerializeField] private GameObject _task;
 
-  [Header("Background Properties")]
+  [Header("General Settings")]
   [SerializeField] private List<GameObject> _images;
   [SerializeField] private GameObject _textInput;
   [SerializeField] private GameObject _taskCompletePanel;
