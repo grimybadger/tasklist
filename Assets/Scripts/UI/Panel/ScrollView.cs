@@ -27,7 +27,7 @@ public class ScrollView : MonoBehaviour
   {
     Button.ButtonPress += OnButtonPress;
 
-    ButtonFunctions.Add(ButtonType.task, new List<Action> { CreateTask, DefaultRightClickFunction });
+    ButtonFunctions.Add(ButtonType.task, new List<Action> { NewTask, DefaultRightClickFunction });
     ButtonFunctions.Add(ButtonType.description, new List<Action> { NameTask, TaskComplete });
     ButtonFunctions.Add(ButtonType.timeElasped, new List<Action> { ShowTimeElasped, DefaultRightClickFunction });
     ButtonFunctions.Add(ButtonType.time, new List<Action> { PauseTimer, DefaultRightClickFunction });
@@ -37,7 +37,7 @@ public class ScrollView : MonoBehaviour
   private void OnButtonPress(object sender, ButtonPressEventArgs e)
   {
     Button = (Button)sender;
-
+    
     if (e.PointerEventData.button == PointerEventData.InputButton.Left)
     {
       ButtonFunctions[Button.ButtonType][LeftMouseClick]();
@@ -46,31 +46,25 @@ public class ScrollView : MonoBehaviour
     {
       ButtonFunctions[Button.ButtonType][RightMouseClick]();
     }
-
   }
-  private GameObject IsTaskAvaliable()
+  private GameObject AvailableTask()
   {
     GameObject go = _taskList.FirstOrDefault(x => !x.GetComponent<Task>().IsInUse);
     return go;
   }
-
-  private void CreateTask()
+  private GameObject CreateTask()
   {
-    GameObject go;
+    GameObject go = Instantiate(_task, _transform);
+    _taskList.Add(go);
+    return go;
+  }
+  private void NewTask()
+  {
+    if (HasReachedLimit() && AvailableTask() == null) return;
 
-    if (IsTaskAvaliable() != null)
-    {
-      go = IsTaskAvaliable();
-      go.gameObject.GetComponent<Task>().ResetSettings();
-    }
-    else
-    {
-      if (HasReachedLimit()) return;
-      go = Instantiate(_task, _transform);
-      _taskList.Add(go);
-    }
+    GameObject go = AvailableTask() == null ? CreateTask() : AvailableTask();
+    go.gameObject.GetComponent<Task>().ResetSettings();
     Task t = go.GetComponent<Task>();
-
     foreach (var item in _taskList)
     {
       t.Time.gameObject.SetActive(item.GetComponent<Task>().Time.gameObject.activeSelf);
@@ -104,26 +98,19 @@ public class ScrollView : MonoBehaviour
   }
   private bool HasReachedLimit()
   {
-    if (_taskList.Count == SizeLimit)
-    {
-      Debug.Log("Limit sized reached.");
-      return true;
-    }
-    return false;
+    return _taskList.Count == SizeLimit ? true: false;
   }
   private void ExitProgram()
   {
-    Debug.Log("GoodBye");
     Application.Quit();
   }
   private void DefaultRightClickFunction()
   {
     Debug.Log("Default Right Click Function");
   }
-
   private IEnumerator InputField(TMP_Text text, Button button)
   {
-    string newText = default;
+    string newText = string.Empty;
     text.text = string.Empty;
     _textInput.GetComponent<TMP_InputField>().text = string.Empty;
 
