@@ -66,12 +66,7 @@ public class ScrollView : MonoBehaviour
     go.gameObject.GetComponent<Task>().ResetSettings();
     Task t = go.GetComponent<Task>();
     t.Time.gameObject.SetActive(_taskList[0].GetComponent<Task>().Time.gameObject.activeSelf);
-    /*
-    foreach (var item in _taskList)
-    {
-      t.Time.gameObject.SetActive(item.GetComponent<Task>().Time.gameObject.activeSelf);
-      break;
-    }*/
+    
     Debug.Log($"Tasklist size: {_taskList.Count}");
   }
   private void NameTask()
